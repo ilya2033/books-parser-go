@@ -1,0 +1,66 @@
+version: "3"
+
+
+name: "go-book-parser"
+services:
+    mariadb:
+        image: mariadb
+        ports:
+            - "33060:3306"
+        environment:
+            - ALLOW_EMPTY_PASSWORD=yes
+            - MYSQL_USER=laravel
+            - MARIADB_DATABASE=book-parser
+            - MYSQL_PASSWORD=laravel
+            - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+        volumes:
+            - ~/.docker-conf/book-parser/mariadb/data:/var/lib/mysql
+        networks:
+            - app-network
+
+
+    redis:
+        image: redis
+        restart: always
+        command: redis-server --save 60 1 --loglevel warning
+        ports:
+            - "6379:6379"
+        volumes:
+            - ~/.docker-conf/book-parser/redis/data:/data
+        networks:
+            - app-network
+
+
+    app:
+        build:
+            context: .
+            dockerfile: ./docker/go/Dockerfile
+        ports:
+            - "8003:3000"
+            - "3001:3001"
+        restart: unless-stopped
+        tty: true
+        environment:
+            SERVICE_NAME: app
+            SERVICE_TAGS: dev
+        volumes:
+            - ./:/usr/src/app
+        networks:
+            - app-network
+
+    webserver:
+        image: nginx
+        restart: unless-stopped
+        tty: true
+        ports:
+            - "8000:80"
+            - "443:443"
+        volumes:
+            - ./:/var/www
+            - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+        networks:
+            - app-network
+
+networks:
+    app-network:
+        driver: bridge
