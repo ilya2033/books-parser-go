@@ -15,7 +15,7 @@ func fromUrls(c *gin.Context) {
 		c.JSON(400, err.Error())
 	}
 
-	epub := parser.StartParsing(json)
+	epub := parser.StartParsingMultiUrl(json)
 	// handle error
 	err = epub.Write("./epub/" + json.Title + ".epub")
 
