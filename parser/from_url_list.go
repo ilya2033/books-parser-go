@@ -10,6 +10,7 @@ type MultiUrlParserSettings struct {
 	BodySelect  string   `json:"body-select" binding:"required"`
 	Author      string   `json:"author" binding:"required"`
 	Title       string   `json:"title" binding:"required"`
+	ConverUrl   string   `json:"cover-url" binding:"required"`
 }
 
 func StartParsingMultiUrl(settings MultiUrlParserSettings) *epub.Epub {

@@ -7,9 +7,9 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
-func TestAdd(t *testing.T) {
+func TestParsenextButtonUrl(t *testing.T) {
 	buttonSelect := "a.btn.next_page"
-	reader, err := os.Open("./test/nextButtonTest.html")
+	reader, err := os.Open("./test/page_1.html")
 
 	if err != nil {
 		t.Errorf("File parse error")
@@ -22,7 +22,7 @@ func TestAdd(t *testing.T) {
 	}
 
 	got, err := parseNextButtonUrl(*doc, buttonSelect)
-	want := "http://ncorrect.com"
+	want := "http://correct.com"
 
 	if err != nil {
 		t.Errorf("Error while reading button")
