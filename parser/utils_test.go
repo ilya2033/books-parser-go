@@ -1,6 +1,7 @@
 package parser
 
 import (
+	"fmt"
 	"testing"
 )
 
@@ -20,6 +21,27 @@ func TestBuildFileNameFromUrl(t *testing.T) {
 
 		if got != tc.expected {
 			t.Errorf("got %q, wanted %q", got, tc.expected)
+		}
+
+	}
+}
+
+func TestRemoveScripts(*testing.T) {
+	testCases := []struct {
+		expected string
+		value    string
+	}{
+		{value: "some random text <sicript></script>", expected: "some random text "},
+		{value: "<script>someando text </script>", expected: ""},
+		{value: "<tr><td></td><script>sdad</script></tr>", expected: "<tr><td></td></tr>"},
+	}
+
+	for _, tc := range testCases {
+
+		got := RemoveScripts(tc.value)
+
+		if got != tc.expected {
+			fmt.Errorf("got %q, wanted %q", got, tc.expected)
 		}
 
 	}
