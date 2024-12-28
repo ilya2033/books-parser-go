@@ -7,7 +7,7 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
-func TestParsenextButtonUrl(t *testing.T) {
+func TestParseNextButtonUrl(t *testing.T) {
 	buttonSelect := "a.btn.next_page"
 	reader, err := os.Open("./test/page_1.html")
 

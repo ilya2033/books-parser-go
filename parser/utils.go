@@ -10,22 +10,36 @@ import (
 	"strings"
 )
 
+const PATH_TO_IMAGES = "./images/"
+
 func saveImageFromUrlToImages(fullUrl string) string {
-	response, e := http.Get(fullUrl)
-	if e != nil {
-		log.Fatal(e)
-	}
+	response := getImageFromUrl(fullUrl)
 	defer response.Body.Close()
 
 	filename := buildFileNameFromUrl(fullUrl)
-	//open a file for writing
-	file, err := os.Create("./images/" + filename)
+
+	resultFileName := saveFromReader(filename, response.Body, PATH_TO_IMAGES)
+	return resultFileName
+}
+
+func getImageFromUrl(url string) *http.Response {
+	response, e := http.Get(url)
+
+	if e != nil {
+		log.Fatal(e)
+	}
+
+	return response
+}
+
+func saveFromReader(filename string, reader io.ReadCloser, path string) string {
+	file, err := os.Create(path + filename)
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer file.Close()
 
-	_, err = io.Copy(file, response.Body)
+	_, err = io.Copy(file, reader)
 	if err != nil {
 		log.Fatal(err)
 	}
