@@ -12,7 +12,7 @@ type SectionDTO struct {
 	Body  string
 }
 
-func createDoc(url string) goquery.Document {
+func createDocFromUrl(url string) goquery.Document {
 
 	res, err := http.Get(url)
 

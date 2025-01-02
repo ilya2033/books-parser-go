@@ -20,7 +20,7 @@ type NextButtonParserSettings struct {
 	ConverUrl        string `json:"cover-url" binding:"required"`
 }
 
-const MILLISECONDS_WAIT = 300
+const MILLISECONDS_WAIT__WITH_BUTTON = 300
 
 func StartParsingWithNextButton(settings NextButtonParserSettings) *epub.Epub {
 	var err error
@@ -31,7 +31,7 @@ func StartParsingWithNextButton(settings NextButtonParserSettings) *epub.Epub {
 	counter := 0
 
 	for {
-		doc := createDoc(url)
+		doc := createDocFromUrl(url)
 
 		section := parseSection(doc, settings.TitleSelect, settings.BodySelect)
 		body := "<h1>" + section.Title + "</h1>" + "<p>" + section.Body + "</p>"
@@ -42,7 +42,7 @@ func StartParsingWithNextButton(settings NextButtonParserSettings) *epub.Epub {
 		if url == "" || err != nil {
 			break
 		}
-		time.Sleep(MILLISECONDS_WAIT * time.Millisecond)
+		time.Sleep(MILLISECONDS_WAIT__WITH_BUTTON * time.Millisecond)
 
 		log.Println(fmt.Sprintf("Page: %d", counter))
 		counter++

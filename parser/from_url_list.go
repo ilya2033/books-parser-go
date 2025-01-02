@@ -18,7 +18,7 @@ func StartParsingMultiUrl(settings MultiUrlParserSettings) *epub.Epub {
 	book.SetAuthor(settings.Author)
 
 	for _, value := range settings.Urls {
-		doc := createDoc(value)
+		doc := createDocFromUrl(value)
 		section := parseSection(doc, settings.TitleSelect, settings.BodySelect)
 		body := "<h1>" + section.Title + "</h1>" + "<p>" + section.Body + "</p>"
 		book.AddSection(body, section.Title, "", "")

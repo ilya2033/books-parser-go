@@ -12,6 +12,7 @@ func main() {
 	router := gin.Default()
 	router.POST("/parse-from-url-list", fromUrls)
 	router.POST("/parse-with-next-button", withNextButton)
+	router.POST("/parse-with-select", withSelect)
 	router.Run(":3001")
 }
 
@@ -34,6 +35,26 @@ func fromUrls(c *gin.Context) {
 	removeGlob("./images")
 }
 
+func withSelect(c *gin.Context) {
+	var json parser.SelectParserSettings
+
+	err := c.BindJSON(&json)
+	if err != nil {
+		c.JSON(400, err.Error())
+	}
+
+	epub := parser.StartParsingWithSelect(json)
+	// handle error
+	err = epub.Write("./epub/" + json.Title + ".epub")
+
+	if err != nil {
+		c.JSON(500, err.Error())
+	}
+
+	removeGlob("./images")
+
+}
+
 func withNextButton(c *gin.Context) {
 	var json parser.NextButtonParserSettings
 
@@ -50,7 +71,7 @@ func withNextButton(c *gin.Context) {
 		c.JSON(500, err.Error())
 	}
 
-	removeGlob("./images/*")
+	removeGlob("./images")
 }
 
 func removeGlob(path string) (err error) {
