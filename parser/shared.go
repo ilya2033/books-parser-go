@@ -35,7 +35,7 @@ func createDoc(url string) goquery.Document {
 	return *doc
 }
 
-func parseUrl(doc goquery.Document, titleSelect string, bodySelect string) SectionDTO {
+func parseSection(doc goquery.Document, titleSelect string, bodySelect string) SectionDTO {
 	section := SectionDTO{}
 
 	// Find the review items

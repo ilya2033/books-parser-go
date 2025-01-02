@@ -33,7 +33,7 @@ func StartParsingWithNextButton(settings NextButtonParserSettings) *epub.Epub {
 	for {
 		doc := createDoc(url)
 
-		section := parseUrl(doc, settings.TitleSelect, settings.BodySelect)
+		section := parseSection(doc, settings.TitleSelect, settings.BodySelect)
 		body := "<h1>" + section.Title + "</h1>" + "<p>" + section.Body + "</p>"
 		book.AddSection(body, section.Title, "", "")
 

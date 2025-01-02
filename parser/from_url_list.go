@@ -10,7 +10,7 @@ type MultiUrlParserSettings struct {
 	BodySelect  string   `json:"body-select" binding:"required"`
 	Author      string   `json:"author" binding:"required"`
 	Title       string   `json:"title" binding:"required"`
-	ConverUrl   string   `json:"cover-url" binding:"required"`
+	CoverUrl    string   `json:"cover-url" binding:"required"`
 }
 
 func StartParsingMultiUrl(settings MultiUrlParserSettings) *epub.Epub {
@@ -19,7 +19,7 @@ func StartParsingMultiUrl(settings MultiUrlParserSettings) *epub.Epub {
 
 	for _, value := range settings.Urls {
 		doc := createDoc(value)
-		section := parseUrl(doc, settings.TitleSelect, settings.BodySelect)
+		section := parseSection(doc, settings.TitleSelect, settings.BodySelect)
 		body := "<h1>" + section.Title + "</h1>" + "<p>" + section.Body + "</p>"
 		book.AddSection(body, section.Title, "", "")
 	}
